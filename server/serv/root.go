@@ -20,6 +20,7 @@ var startCmd = &cobra.Command{
 	Args:         cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		port := args[0]
+		// start the server here
 		StartServerOnPort(port)
 	},
 }

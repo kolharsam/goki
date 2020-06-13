@@ -1,18 +1,24 @@
 package serv
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 )
 
 // StartServerOnPort function returns a new instance of a web server
 func StartServerOnPort(port string) {
-	// TODO: validate port
-	http.HandleFunc("/", handleServerRequests)
-	modifiedPort := attachColon(port)
-	showInitInfo(port)
+	serverMux := http.NewServeMux()
 
-	err := http.ListenAndServe(modifiedPort, nil)
+	modifiedPort, err := formatPort(port)
+	if err != nil {
+		fmt.Errorf(err.Error())
+	}
+
+	showInitInfo(port)
+	mainHandler := http.HandlerFunc(handleServerRequests)
+	serverMux.Handle("/", LoggingMiddleware(mainHandler))
+	err = http.ListenAndServe(modifiedPort, serverMux)
 	if err != nil {
 		fmt.Errorf("there was an error with running the server", err)
 	}
@@ -20,15 +26,30 @@ func StartServerOnPort(port string) {
 
 // showInitInfo is just there to make things fancy...
 func showInitInfo(port string) {
-	fmt.Println("Starting goki server on port: ", port, "...")
+	fmt.Printf("Starting goki server on port: %s ...\n", port)
 	fmt.Println("Goki-Server v0.0.1")
 	fmt.Println("Use the goki-client to connect with this server.")
 }
 
-func attachColon(port string) string {
-	return ":" + port
+func formatPort(port string) (string, error) {
+	if !(len(port) >= 4) && !(len(port) < 6) {
+		return "", errors.New("Incorrect port value passed")
+	}
+
+	return ":" + port, nil
 }
 
 func handleServerRequests(writer http.ResponseWriter, request *http.Request) {
-	// TODO: handle server requests here
+	if request.Method == http.MethodGet {
+		// sort of like a health check
+		writer.WriteHeader(http.StatusOK)
+		writer.Write([]byte("OK"))
+	}
+
+	// TODO: we can probably use something better than a JSON request
+	if request.Method == http.MethodPost {
+		// extract the information from the request body - command and args
+		// send command and args to the main goki program and get response
+		// send the response back to the user
+	}
 }
