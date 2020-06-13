@@ -5,17 +5,25 @@ import "github.com/sirupsen/logrus"
 var serverLogger = logrus.New()
 
 // LogErr to be used to log errors
-func LogErr(err error, errMsg string) {
+func LogErr(err error) {
 	serverLogger.WithFields(logrus.Fields{
 		"error": err.Error(),
-		"message": errMsg,
-	}).Fatal("There has been an error!")
+	}).Fatal("Error")
 }
 
-// LogSuccess to be used to log success
-func LogSuccess(cmd string, res string) {
+// LogRequest to be used to logging requests
+func LogRequest(method string, request interface{}, timestamp string) {
 	serverLogger.WithFields(logrus.Fields{
-		"command": cmd,
-		"result": res,
-	}).Info("Query was successful!")
+		"method":    method,
+		"request":   request,
+		"timestamp": timestamp,
+	}).Info("Request Information")
+}
+
+// LogInfo to log any current information
+func LogInfo(timestamp string, info ...interface{}) {
+	serverLogger.WithFields(logrus.Fields{
+		"timestamp": timestamp,
+	}).Info("Response Sent")
+	serverLogger.Info(info...)
 }
