@@ -14,5 +14,6 @@ A toy non-persistent Key-Value data store
 - [ ] Fixed Request and Response types
 - [ ] Add support for commands like `get` & `set` to start off
 - [ ] Add health check flag for client
+- [ ] Add tests (for both client and server)
 
 More information will be updated here soon.
