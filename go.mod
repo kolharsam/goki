@@ -3,6 +3,6 @@ module github.com/kolharsam/goki
 go 1.14
 
 require (
-	github.com/sirupsen/logrus v1.6.0 // indirect
-	rsc.io/quote v1.5.2
+	github.com/sirupsen/logrus v1.6.0
+	github.com/spf13/cobra v1.0.0
 )
