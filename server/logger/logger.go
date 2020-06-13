@@ -4,7 +4,7 @@ import "github.com/sirupsen/logrus"
 
 var serverLogger = logrus.New()
 
-// LogErr to be used to log errors
+// LogErr to be used to log for fatal server errors
 func LogErr(err error) {
 	serverLogger.WithFields(logrus.Fields{
 		"error": err.Error(),

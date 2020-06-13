@@ -1,9 +1,13 @@
 package serv
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
+
+	"github.com/kolharsam/goki/common"
+	"github.com/kolharsam/goki/server/logger"
 )
 
 // StartServerOnPort function returns a new instance of a web server
@@ -21,7 +25,7 @@ func StartServerOnPort(port string) {
 	serverMux.Handle("/", finalHandler)
 	err = http.ListenAndServe(modifiedPort, serverMux)
 	if err != nil {
-		fmt.Errorf("there was an error with running the server", err)
+		logger.LogErr(err)
 	}
 }
 
@@ -47,9 +51,16 @@ func handleServerRequests(writer http.ResponseWriter, request *http.Request) {
 		writer.Write([]byte("OK"))
 	}
 
-	// TODO: we can probably use something better than a JSON request
+	// NOTE: we can probably use something better than a JSON request
 	if request.Method == http.MethodPost {
-		// var response common.GokiRequest
+		var req common.GokiRequest
+		err := json.NewDecoder(request.Body).Decode(&req)
+		if err != nil {
+			http.Error(writer, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		fmt.Println(req.Command, req.Args)
 		// extract the information from the request body - command and args
 		// send command and args to the main goki program and get response
 		// send the response back to the user
