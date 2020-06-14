@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/kolharsam/goki/client/cli"
 
 func main() {
-	fmt.Println("Hello, client")
+	cli.Execute()
 }
