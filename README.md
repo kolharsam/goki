@@ -11,8 +11,8 @@ A toy non-persistent Key-Value data store
 
 - [ ] Make Client REPL
 - [ ] Client Connects with server
-- [ ] Fixed Request and Response types
-- [ ] Add support for commands like `get` & `set` to start off
+- [x] Fixed Request and Response types
+- [x] Add support for commands like `get` & `set` to start off
 - [ ] Add health check flag for client
 - [ ] Add tests (for both client and server)
 
