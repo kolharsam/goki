@@ -17,13 +17,15 @@ func StartServerOnPort(port string) {
 
 	modifiedPort, err := formatPort(port)
 	if err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Println(err.Error())
 	}
 
 	showInitInfo(port)
 	mainHandler := http.HandlerFunc(handleServerRequests)
 	finalHandler := EnforceJSONPayloadMiddleware(LoggingMiddleware(mainHandler))
 	serverMux.Handle("/", finalHandler)
+
+	// start the server
 	err = http.ListenAndServe(modifiedPort, serverMux)
 	if err != nil {
 		logger.LogErr(err)
@@ -55,18 +57,19 @@ func handleServerRequests(writer http.ResponseWriter, request *http.Request) {
 	// NOTE: we can probably use something better than a JSON request
 	if request.Method == http.MethodPost {
 		var req common.GokiRequest
-		err = json.NewDecoder(request.Body).Decode(&req)
+		err := json.NewDecoder(request.Body).Decode(&req)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response, err = goki.Execute(req.Command, req.Args)
+		response, err := goki.Execute(req.Command, req.Args)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(writer, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		json.NewEncoder(w).Encode(response)
+		writer.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(writer).Encode(response)
 	}
 }

@@ -30,6 +30,6 @@ func Execute() {
 	rootCmd.AddCommand(startCmd)
 
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Errorf("couldn't execute command", err)
+		fmt.Println("couldn't execute command", err)
 	}
 }
