@@ -14,7 +14,8 @@ func SetToStorage(key string, value string) string {
 	store.gokiStore[key] = encodeToBytes(value)
 	store.Unlock()
 
-	return key + " was set in the DB"
+	// making it redis-cli like
+	return "OK"
 }
 
 // GetValue returns the value of the

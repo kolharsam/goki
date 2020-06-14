@@ -51,7 +51,7 @@ func handleServerRequests(writer http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodGet {
 		// sort of like a health check
 		writer.WriteHeader(http.StatusOK)
-		writer.Write([]byte("OK"))
+		writer.Write([]byte("PONG"))
 	}
 
 	// NOTE: we can probably use something better than a JSON request
