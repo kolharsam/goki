@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/kolharsam/goki/common"
+	"github.com/kolharsam/goki/server/goki"
 	"github.com/kolharsam/goki/server/logger"
 )
 
@@ -54,15 +55,18 @@ func handleServerRequests(writer http.ResponseWriter, request *http.Request) {
 	// NOTE: we can probably use something better than a JSON request
 	if request.Method == http.MethodPost {
 		var req common.GokiRequest
-		err := json.NewDecoder(request.Body).Decode(&req)
+		err = json.NewDecoder(request.Body).Decode(&req)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		fmt.Println(req.Command, req.Args)
-		// extract the information from the request body - command and args
-		// send command and args to the main goki program and get response
-		// send the response back to the user
+		response, err = goki.Execute(req.Command, req.Args)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		json.NewEncoder(w).Encode(response)
 	}
 }
