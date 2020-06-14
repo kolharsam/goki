@@ -8,7 +8,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:          "goki-server",
-	Short:        "A toy key-value store. Inspired by Redis",
+	Short:        "cmd to start server",
 	Long:         "Running this command will start a server for you.",
 	SilenceUsage: true,
 }
@@ -17,9 +17,14 @@ var startCmd = &cobra.Command{
 	Use:          "start",
 	Short:        "start a web server at a particular port",
 	SilenceUsage: true,
-	Args:         cobra.ExactArgs(1),
+	Args:         cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		port := args[0]
+		var port string
+		if len(args) == 0 {
+			port = "8080"
+		} else {
+			port = args[0]
+		}
 		// start the server here
 		StartServerOnPort(port)
 	},
