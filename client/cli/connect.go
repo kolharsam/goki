@@ -15,6 +15,7 @@ func ConnectStartREPL(port string) {
 	err := ping(port)
 	if err != nil {
 		fmt.Println(err.Error())
+		return
 	}
 
 	showInitInfo(port)
@@ -26,11 +27,11 @@ func ping(port string) error {
 	url := utils.MakeLocalhostURL(port)
 	response, err := http.Get(url)
 	if err != nil {
-		return errors.New("Unable to connect to server at " + port)
+		return errors.New("Unable to connect to server at :" + port)
 	}
 
 	if response.StatusCode != http.StatusOK {
-		return errors.New("Unable to connect to server at " + port)
+		return errors.New("Unable to connect to server at :" + port)
 	}
 
 	defer response.Body.Close()

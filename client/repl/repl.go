@@ -18,7 +18,7 @@ import (
 func RunREPL(port string) {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		fmt.Print("goki-client >: ")
+		fmt.Print("client:" + port + " >: ")
 
 		input, err := reader.ReadString('\n')
 		if err != nil {
