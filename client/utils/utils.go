@@ -9,5 +9,8 @@ func MakeLocalhostURL(port string) string {
 
 // CleanseText clears \n and trims the input string
 func CleanseText(text string) string {
-	return strings.Trim(strings.TrimSuffix(text, "\n"), " ")
+	return strings.Trim(strings.Trim(strings.TrimSuffix(text, "\n"), "\""), " ")
 }
+
+// this above change was only made to account for "strings" within the arguments
+// TODO: handle above note in a better manner
