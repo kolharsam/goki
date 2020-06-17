@@ -20,10 +20,22 @@ func SetToStorage(key string, value string) string {
 
 // GetValue returns the value of the
 func GetValue(key string) string {
-	value := key + " was not found in the DB"
+	value := key + " was not found"
 	store.RLock()
 	if _, ok := store.gokiStore[key]; ok != false {
 		value = decodeToString(store.gokiStore[key])
+	}
+	store.RUnlock()
+
+	return value
+}
+
+// CheckIfExists returns "YES" if a key is present in the db
+func CheckIfExists(key string) string {
+	value := "NO"
+	store.RLock()
+	if _, ok := store.gokiStore[key]; ok != false {
+		value = "YES"
 	}
 	store.RUnlock()
 
