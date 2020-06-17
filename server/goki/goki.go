@@ -9,7 +9,7 @@ import (
 var commands = map[string]func([]string) (common.GokiResponse, error){
 	"set":    Set,
 	"get":    Get,
-	"exist":  Exists,
+	"exists": Exists,
 	"delete": Delete,
 }
 
