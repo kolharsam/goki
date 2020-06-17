@@ -15,7 +15,16 @@ A toy non-persistent Key-Value data store
 - [x] Add support for commands like `get` & `set` to start off
 - [ ] Print the results and errors in a better format on client REPL
 - [ ] Improve Logging format on server. Richer with the actual details
-- [ ] Other commands - `delete`, `expiry`, a new data structure `lists` - `l/r-push` & `l\r-pop`
+- [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
+- [ ] Show all commands supported helper
+- [ ] Other commands - `expiry`, a new data structure `lists` - `l/r-push` & `l\r-pop`
 - [ ] Add tests (for both client and server)
+
+##### Supported Methods
+
+- `set`
+- `get`
+- `delete`
+- `exists`
 
 More information will be updated here soon.
