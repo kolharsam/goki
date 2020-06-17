@@ -6,6 +6,9 @@ import (
 	"github.com/kolharsam/goki/common"
 )
 
+// TODO: A lot of the functions have more or less the similar
+// function body so far. Maybe an abstraction can be made in this regard.
+
 // Set is used to set a key into the data store
 func Set(args []string) (common.GokiResponse, error) {
 	err := ValidateNArgs(2, args)
@@ -50,6 +53,22 @@ func Exists(args []string) (common.GokiResponse, error) {
 
 	key := args[0]
 	value := CheckIfExists(key)
+
+	return common.GokiResponse{
+		Result:    value,
+		TimeStamp: time.Now(),
+	}, nil
+}
+
+// Delete returns OK upon deleting a key if it is present in the db
+func Delete(args []string) (common.GokiResponse, error) {
+	err := ValidateNArgs(1, args)
+	if err != nil {
+		return common.GokiResponse{}, err
+	}
+
+	key := args[0]
+	value := DeleteKey(key)
 
 	return common.GokiResponse{
 		Result:    value,

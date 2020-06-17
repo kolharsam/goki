@@ -2,6 +2,9 @@ package goki
 
 import "sync"
 
+// TODO: A lot of the functions have more or less the similar
+// function body so far. Maybe an abstraction can be made in this regard.
+
 // this is trying to make the usage of this map concurrent
 var store = struct {
 	sync.RWMutex
@@ -36,6 +39,19 @@ func CheckIfExists(key string) string {
 	store.RLock()
 	if _, ok := store.gokiStore[key]; ok != false {
 		value = "YES"
+	}
+	store.RUnlock()
+
+	return value
+}
+
+// DeleteKey deletes a key if it is present
+func DeleteKey(key string) string {
+	value := key + " was not found"
+	store.RLock()
+	if _, ok := store.gokiStore[key]; ok != false {
+		delete(store.gokiStore, key)
+		value = "OK"
 	}
 	store.RUnlock()
 

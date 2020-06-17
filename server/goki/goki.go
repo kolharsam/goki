@@ -7,9 +7,10 @@ import (
 )
 
 var commands = map[string]func([]string) (common.GokiResponse, error){
-	"set":   Set,
-	"get":   Get,
-	"exist": Exists,
+	"set":    Set,
+	"get":    Get,
+	"exist":  Exists,
+	"delete": Delete,
 }
 
 // Execute runs the show for goki and returns
