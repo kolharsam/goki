@@ -27,3 +27,11 @@ func LogInfo(timestamp string, info ...interface{}) {
 	}).Info("Response Sent")
 	serverLogger.Info(info...)
 }
+
+// LogWarning to be used to warn about any failures
+func LogWarning(timestamp string, message string) {
+	serverLogger.WithFields(logrus.Fields{
+		"timestamp": timestamp,
+		"message":   message,
+	}).Warn("Errm...Something wasn't right!")
+}
