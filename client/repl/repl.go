@@ -61,11 +61,17 @@ func execCommand(input string, port string) error {
 
 	formattedResult := resp.Result
 
-	if !(resp.Result == "OK" || resp.Result == "YES") {
+	// A list of results that should not be "quoted"
+	unformattedResults := []string{"OK", "YES", "(nil)", "NO"}
+
+	if !utils.Contains(unformattedResults, formattedResult) {
 		formattedResult = "\"" + resp.Result + "\""
 	}
 
-	fmt.Fprintln(os.Stdout, formattedResult)
+	if formattedResult != "" {
+		fmt.Fprintln(os.Stdout, formattedResult)
+	}
+
 	return nil
 }
 

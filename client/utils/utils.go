@@ -11,3 +11,14 @@ func MakeLocalhostURL(port string) string {
 func CleanseText(text string) string {
 	return strings.Trim(strings.TrimSuffix(text, "\n"), " ")
 }
+
+// Contains returns true if res is present in the list arr
+func Contains(arr []string, res string) bool {
+	for _, value := range arr {
+		if value == res {
+			return true
+		}
+	}
+
+	return false
+}
