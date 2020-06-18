@@ -10,7 +10,7 @@ var commands = map[string]func([]string) (common.GokiResponse, error){
 	"set":    Set,
 	"get":    Get,
 	"exists": Exists,
-	"delete": Delete,
+	"del":    Delete,
 }
 
 // Execute runs the show for goki and returns

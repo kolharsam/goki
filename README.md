@@ -24,7 +24,7 @@ A toy non-persistent Key-Value data store
 
 - `set`
 - `get`
-- `delete`
+- `del`-ete
 - `exists`
 
 More information will be updated here soon.
