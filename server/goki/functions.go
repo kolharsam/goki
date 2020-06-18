@@ -75,3 +75,19 @@ func Delete(args []string) (common.GokiResponse, error) {
 		TimeStamp: time.Now(),
 	}, nil
 }
+
+// Expire returns OK upon deleting a key if it is present in the db
+func Expire(args []string) (common.GokiResponse, error) {
+	// TODO: This can be used in conjunction with set
+	// eg. set hello ex 100, so we should add support for such a possibility
+	err := ValidateNArgs(2, args)
+	if err != nil {
+		return common.GokiResponse{}, err
+	}
+
+	key := args[0]
+	expTime := args[1]
+	ExpireKey(key, expTime)
+
+	return common.GokiResponse{}, nil
+}
