@@ -1,6 +1,7 @@
 # goki
 
-A toy non-persistent Key-Value data store
+A toy non-persistent(in-memory) Key-Value data store. Redis is the inspiration.
+I'll try to model this as close to it as possible.
 
 ### Main Components
 
@@ -17,7 +18,7 @@ A toy non-persistent Key-Value data store
 - [ ] Improve Logging format on server. Richer with the actual details
 - [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
 - [ ] Show all commands supported helper
-- [ ] Other commands - `expiry`, a new data structure `lists` - `l/r-push` & `l\r-pop`
+- [ ] Other commands - `ttl`, `incr`, `decr` (for integers), `persist` for certain keys, a new data structure `lists` - `l/r-push` & `l\r-pop`
 - [ ] Add tests (for both client and server)
 
 ##### Supported Methods
@@ -26,5 +27,6 @@ A toy non-persistent Key-Value data store
 - `get`
 - `del`-ete
 - `exists`
+- `expire`
 
 More information will be updated here soon.
