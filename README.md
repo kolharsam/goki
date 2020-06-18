@@ -18,10 +18,11 @@ I'll try to model this as close to it as possible.
 - [ ] Improve Logging format on server. Richer with the actual details
 - [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
 - [ ] Show all commands supported helper
+- [ ] Good to have : Instead of using JSON over http, try and use some other lighter format for requests and response, like `bencode`
 - [ ] Other commands - `ttl`, `incr`, `decr` (for integers), `persist` for certain keys, a new data structure `lists` - `l/r-push` & `l\r-pop`
 - [ ] Add tests (for both client and server)
 
-##### Supported Methods
+##### Supported Client Commands
 
 - `set`
 - `get`
