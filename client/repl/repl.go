@@ -59,8 +59,13 @@ func execCommand(input string, port string) error {
 	var resp common.GokiResponse
 	json.NewDecoder(response.Body).Decode(&resp)
 
-	// TODO: Better formatting for the output
-	fmt.Fprintln(os.Stdout, resp.Result)
+	formattedResult := resp.Result
+
+	if !(resp.Result == "OK" || resp.Result == "YES") {
+		formattedResult = "\"" + resp.Result + "\""
+	}
+
+	fmt.Fprintln(os.Stdout, formattedResult)
 	return nil
 }
 
