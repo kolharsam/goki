@@ -30,4 +30,6 @@ I'll try to model this as close to it as possible.
 - `exists`
 - `expire`
 
+- for `ttl` I'm thinking of changing the data struture slightlt TODO    
+
 More information will be updated here soon.
