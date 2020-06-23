@@ -59,17 +59,10 @@ func execCommand(input string, port string) error {
 	var resp common.GokiResponse
 	json.NewDecoder(response.Body).Decode(&resp)
 
-	formattedResult := resp.Result
-
-	// A list of results that should not be "quoted"
-	unformattedResults := []string{"OK", "YES", "(nil)", "NO"}
-
-	if !utils.Contains(unformattedResults, formattedResult) {
-		formattedResult = "\"" + resp.Result + "\""
-	}
-
-	if formattedResult != "" {
-		fmt.Fprintln(os.Stdout, formattedResult)
+	if resp.Result.ToFormat {
+		fmt.Fprintln(os.Stdout, "\""+resp.Result.Value+"\"")
+	} else {
+		fmt.Fprintln(os.Stdout, resp.Result.Value)
 	}
 
 	return nil

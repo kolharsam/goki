@@ -8,8 +8,14 @@ type GokiRequest struct {
 	Args    []string `json:"args"`
 }
 
+// GokiResult will be used to help format the response
+type GokiResult struct {
+	Value    string `json:"value"`
+	ToFormat bool   `json:"toFormat"`
+}
+
 // GokiResponse is for all responses
 type GokiResponse struct {
-	Result    string    `json:"result"`
-	TimeStamp time.Time `json:"timestamp"`
+	Result    GokiResult `json:"result"`
+	TimeStamp time.Time  `json:"timestamp"`
 }

@@ -6,9 +6,6 @@ import (
 	"github.com/kolharsam/goki/common"
 )
 
-// TODO: A lot of the functions have more or less the similar
-// function body so far. Maybe an abstraction can be made in this regard.
-
 // Set is used to set a key into the data store
 func Set(args []string) (common.GokiResponse, error) {
 	err := ValidateNArgs(2, args)
