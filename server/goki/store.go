@@ -20,6 +20,8 @@ const (
 	Float  = "float"
 )
 
+// NOTE: Redis doesn't support floats out of the box. This does. I guess it's okay
+
 // StoredValue is the Struct used to store the values within the store
 type StoredValue struct {
 	Value     interface{}
@@ -82,7 +84,7 @@ func GetValue(key string) common.GokiResult {
 		if strVal.Type == "float" {
 			value += "(float) "
 		}
-		value = fmt.Sprintf("%v", strVal.Value)
+		value += fmt.Sprintf("%v", strVal.Value)
 		if strVal.Type == "string" {
 			toFormat = true
 		}

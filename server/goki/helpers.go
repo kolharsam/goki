@@ -3,15 +3,13 @@ package goki
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"strconv"
 )
 
 // Some helper methods
 
 func makeNewStoreValue(value string) (StoredValue, error) {
-	// FIXME: Takes this as the default function to use. make it work for the correct one
-	if num, err := checkIfInt(value); err != nil {
+	if num, err := checkIfInt(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: -1,
@@ -19,7 +17,7 @@ func makeNewStoreValue(value string) (StoredValue, error) {
 		}, nil
 	}
 
-	if num, err := checkIfFloat(value); err != nil {
+	if num, err := checkIfFloat(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: -1,
@@ -57,6 +55,5 @@ func encodeStructToBytes(v StoredValue) ([]byte, error) {
 func decodeStructToBytes(bytesArr []byte) (StoredValue, error) {
 	var unmarshalledVal StoredValue
 	err := json.Unmarshal(bytesArr, &unmarshalledVal)
-	fmt.Println(unmarshalledVal)
 	return unmarshalledVal, err
 }
