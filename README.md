@@ -14,7 +14,7 @@ I'll try to model this as close to it as possible.
 - [x] Client Connects with server
 - [x] Fixed Request and Response types
 - [x] Add support for commands like `get` & `set` to start off
-- [ ] Print the results and errors in a better format on client REPL
+- [x] Print the results and errors in a better format on client REPL
 - [ ] Improve Logging format on server. Richer with the actual details
 - [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
 - [ ] Show all commands supported helper
