@@ -12,6 +12,7 @@ var commands = map[string]func([]string) (common.GokiResponse, error){
 	"exists": Exists,
 	"del":    Delete,
 	"expire": Expire,
+	"ttl":    TTL,
 }
 
 // Execute runs the show for goki and returns

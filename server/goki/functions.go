@@ -88,3 +88,19 @@ func Expire(args []string) (common.GokiResponse, error) {
 
 	return common.GokiResponse{}, nil
 }
+
+// TTL func is the command to fetch the current TTL for a value
+func TTL(args []string) (common.GokiResponse, error) {
+	err := ValidateNArgs(1, args)
+	if err != nil {
+		return common.GokiResponse{}, err
+	}
+
+	key := args[0]
+	currentTTL := FetchTTL(key)
+
+	return common.GokiResponse{
+		Result:    currentTTL,
+		TimeStamp: time.Now(),
+	}, nil
+}

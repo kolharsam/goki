@@ -32,6 +32,30 @@ func makeNewStoreValue(value string) (StoredValue, error) {
 	}, nil
 }
 
+func makeTimedValue(value string, time int) (StoredValue, error) {
+	if num, err := checkIfInt(value); err == nil {
+		return StoredValue{
+			Value:     num,
+			TimeAlive: time,
+			Type:      Int,
+		}, nil
+	}
+
+	if num, err := checkIfFloat(value); err == nil {
+		return StoredValue{
+			Value:     num,
+			TimeAlive: time,
+			Type:      Float,
+		}, nil
+	}
+
+	return StoredValue{
+		Value:     value,
+		TimeAlive: time,
+		Type:      String,
+	}, nil
+}
+
 func checkIfInt(value string) (int32, error) {
 	num, err := strconv.ParseInt(value, 10, 8)
 	if err != nil {
