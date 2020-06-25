@@ -143,57 +143,15 @@ func ExpireKey(key string, expireTime string) {
 	}
 
 	if currentStr, ok := store.gokiStore[key]; ok != false {
-		ticker := time.NewTicker(time.Second)
-		done := make(chan bool)
+		// There are 2 issues to be fixed with this:
+		// 1. There's no global way of stopping the timer, if the value is updated from the user
+		//    This might work out because setting a value sets the TimeAlive to -1 and so essentially
+		//    the changes should come on updateTTL where we can verify the current objects time and
+		//    the time left, that way we can easily stop the timer
+		// 2. Updates do not use the current mutex present on store, the timer stops working for some
+		//    reason. Should look for more references regarding this issue
 
-		// FIXME: fix the timer issue
-
-		go func() {
-			timeKeeper := timeNumber
-			for {
-				select {
-				case <-done:
-					return
-				case t := <-ticker.C:
-					currentValue, err := decodeStructToBytes(currentStr)
-					if err != nil {
-						logger.LogWarning(time.Now().String(), "Unable to read key from memory")
-						ticker.Stop()
-						done <- true
-						return
-					}
-					valueString := fmt.Sprintf("%v", currentValue.Value)
-					timeKeeper--
-					fmt.Println(t.UnixNano(), timeKeeper)
-					newValue, err := makeTimedValue(valueString, timeKeeper)
-					if err != nil {
-						fmt.Println(err.Error())
-						ticker.Stop()
-						done <- true
-					}
-					fmt.Println(newValue)
-					store.Lock()
-					encodedNewVal, err := encodeStructToBytes(newValue)
-					fmt.Println("asdasd")
-					if err != nil {
-						logger.LogWarning(t.Local().String(), "Unable to commit key to memory")
-						store.Unlock()
-						ticker.Stop()
-						done <- true
-						return
-					}
-					store.gokiStore[key] = encodedNewVal
-					if timeKeeper <= 0 {
-						delete(store.gokiStore, key)
-						store.Unlock()
-						ticker.Stop()
-						done <- true
-						return
-					}
-					store.Unlock()
-				}
-			}
-		}()
+		go updateTTL(timeNumber, currentStr, key)
 	}
 }
 

@@ -3,7 +3,11 @@ package goki
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
+	"time"
+
+	"github.com/kolharsam/goki/server/logger"
 )
 
 // Some helper methods
@@ -80,4 +84,40 @@ func decodeStructToBytes(bytesArr []byte) (StoredValue, error) {
 	var unmarshalledVal StoredValue
 	err := json.Unmarshal(bytesArr, &unmarshalledVal)
 	return unmarshalledVal, err
+}
+
+func updateTTL(t int, currentStr []byte, key string) {
+	// TODO: try leveraging time.NewTicker for this instead of sleep
+	for {
+		// get current object
+		currentValue, err := decodeStructToBytes(currentStr)
+		if err != nil {
+			logger.LogWarning(time.Now().String(), "Unable to read key from memory")
+			return
+		}
+		valueString := fmt.Sprintf("%v", currentValue.Value)
+		// decrement timer
+		t--
+
+		newValue, err := makeTimedValue(valueString, t)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		// encode the new object
+		encodedNewVal, err := encodeStructToBytes(newValue)
+		if err != nil {
+			logger.LogWarning(time.Now().String(), "Unable to commit key to memory")
+			return
+		}
+
+		store.gokiStore[key] = encodedNewVal
+		if t <= 0 {
+			delete(store.gokiStore, key)
+			return
+		}
+
+		// instead of using tickers
+		time.Sleep(1 * time.Second)
+	}
 }
