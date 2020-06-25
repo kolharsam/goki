@@ -1,7 +1,7 @@
 # goki
 
 A toy non-persistent(in-memory) Key-Value data store. Redis is the inspiration.
-I'll try to model this as close to it as possible.
+I'll try to model this repo as close to redis as possible.
 
 ### Main Components
 
@@ -19,7 +19,7 @@ I'll try to model this as close to it as possible.
 - [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
 - [ ] Show all commands supported helper
 - [ ] Good to have : Instead of using JSON over http, try and use some other lighter format for requests and response, like `bencode`
-- [ ] Other commands - `ttl`, `incr`, `decr` (for integers), `persist` for certain keys, a new data structure `lists` - `l/r-push` & `l\r-pop`
+- [ ] Other commands `incr`, `decr` (for integers), `persist` for certain keys, a new data structure `lists` - `l/r-push` & `l\r-pop`
 - [ ] Add tests (for both client and server)
 
 ##### Supported Client Commands
@@ -29,7 +29,6 @@ I'll try to model this as close to it as possible.
 - `del`-ete
 - `exists`
 - `expire`
-
-- for `ttl` I'm thinking of changing the data struture slightlt TODO    
+- `ttl`
 
 More information will be updated here soon.
