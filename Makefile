@@ -11,3 +11,8 @@ make-server-exec:  ## makes a server executable (gox needs to be there)
 	gox -os="darwin" github.com/kolharsam/goki/server
 make-client-exec:  ## makes a client executable
 	gox -os="darwin" github.com/kolharsam/goki/client
+vet-server:  ## run go vet over server code
+	go vet ./server
+vet-client:  ## run go vet over client code
+	go vet ./client
+vet-common:  ## run go vet over common dir.
