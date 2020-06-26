@@ -86,17 +86,22 @@ func decodeStructToBytes(bytesArr []byte) (StoredValue, error) {
 	return unmarshalledVal, err
 }
 
-func updateTTL(t int, currentStr []byte, key string) {
-	// TODO: try leveraging time.NewTicker for this instead of sleep
+func updateTTL(t int, key string) {
 	for {
 		// get current object
-		currentValue, err := decodeStructToBytes(currentStr)
+		currentValue, err := decodeStructToBytes(store.gokiStore[key])
 		if err != nil {
 			logger.LogWarning(time.Now().String(), "Unable to read key from memory")
 			return
 		}
 		valueString := fmt.Sprintf("%v", currentValue.Value)
-		// decrement timer
+
+		// decrement time count
+
+		// this case covers the point if the key has been edited while the timer is running
+		if currentValue.TimeAlive <= 0 {
+			return
+		}
 		t--
 
 		newValue, err := makeTimedValue(valueString, t)
@@ -104,6 +109,7 @@ func updateTTL(t int, currentStr []byte, key string) {
 			fmt.Println(err.Error())
 			return
 		}
+
 		// encode the new object
 		encodedNewVal, err := encodeStructToBytes(newValue)
 		if err != nil {
@@ -117,7 +123,6 @@ func updateTTL(t int, currentStr []byte, key string) {
 			return
 		}
 
-		// instead of using tickers
 		time.Sleep(1 * time.Second)
 	}
 }

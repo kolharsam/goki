@@ -142,16 +142,12 @@ func ExpireKey(key string, expireTime string) {
 		return
 	}
 
-	if currentStr, ok := store.gokiStore[key]; ok != false {
-		// There are 2 issues to be fixed with this:
-		// 1. There's no global way of stopping the timer, if the value is updated from the user
-		//    This might work out because setting a value sets the TimeAlive to -1 and so essentially
-		//    the changes should come on updateTTL where we can verify the current objects time and
-		//    the time left, that way we can easily stop the timer
-		// 2. Updates do not use the current mutex present on store, the timer stops working for some
+	if _, ok := store.gokiStore[key]; ok != false {
+		// There are an issue to be fixed related to this:
+		// 1. Updates do not use the current mutex present on store, the timer stops working for some
 		//    reason. Should look for more references regarding this issue
 
-		go updateTTL(timeNumber, currentStr, key)
+		go updateTTL(timeNumber, key)
 	}
 }
 
