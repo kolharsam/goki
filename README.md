@@ -26,7 +26,7 @@ I'll try to model this repo as close to redis as possible.
 
 - `set`
 - `get`
-- `del`-ete
+- `del`
 - `exists`
 - `expire`
 - `ttl`
