@@ -39,4 +39,16 @@ I'll try to model this repo as close to redis as possible.
 - `incr`
 - `decr`
 
+### Follow these steps to contribute or set up the dev env
+ 
+ - fork/clone this repo
+ - make you sure you have `go` installed and your `GOPATH` setup since we use go modules.
+ - to run the **server** you can use the command `go run server/main.go start 9000`
+ - to run the **client** you can use the command `go run client/main.go connect 9000`
+ - Make your changes! :)
+
+Also, it'll be great if you could help me set up `realize` or any other golang task runners for this!
+
+Any feedback, suggestions and criticism's are very much welcome! :)
+
 More information will be updated here soon.
