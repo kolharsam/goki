@@ -163,6 +163,7 @@ func FetchTTL(key string) common.GokiResult {
 				ToFormat: false,
 			}
 		}
+		store.RUnlock()
 		return common.GokiResult{
 			Value:    strconv.Itoa(decodedValue.TimeAlive),
 			ToFormat: false,
@@ -174,4 +175,18 @@ func FetchTTL(key string) common.GokiResult {
 		Value:    "ERR: Key not found",
 		ToFormat: false,
 	}
+}
+
+// IncrementValue increments an integer value
+func IncrementValue(key string) common.GokiResult {
+	return performIntFunction(key, func(intVal int) int {
+		return intVal + 1
+	})
+}
+
+// DecrementValue decrements a value of string
+func DecrementValue(key string) common.GokiResult {
+	return performIntFunction(key, func(intVal int) int {
+		return intVal - 1
+	})
 }

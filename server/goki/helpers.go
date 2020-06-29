@@ -7,13 +7,14 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/kolharsam/goki/common"
 	"github.com/kolharsam/goki/server/logger"
 )
 
 // Some helper methods
 
 func makeNewStoreValue(value string) (StoredValue, error) {
-	if num, err := checkIfInt(value); err == nil {
+	if num, err := getIntValue(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: -1,
@@ -21,7 +22,7 @@ func makeNewStoreValue(value string) (StoredValue, error) {
 		}, nil
 	}
 
-	if num, err := checkIfFloat(value); err == nil {
+	if num, err := getFloatValue(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: -1,
@@ -37,7 +38,7 @@ func makeNewStoreValue(value string) (StoredValue, error) {
 }
 
 func makeTimedValue(value string, time int) (StoredValue, error) {
-	if num, err := checkIfInt(value); err == nil {
+	if num, err := getIntValue(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: time,
@@ -45,7 +46,7 @@ func makeTimedValue(value string, time int) (StoredValue, error) {
 		}, nil
 	}
 
-	if num, err := checkIfFloat(value); err == nil {
+	if num, err := getFloatValue(value); err == nil {
 		return StoredValue{
 			Value:     num,
 			TimeAlive: time,
@@ -60,15 +61,15 @@ func makeTimedValue(value string, time int) (StoredValue, error) {
 	}, nil
 }
 
-func checkIfInt(value string) (int32, error) {
-	num, err := strconv.ParseInt(value, 10, 8)
+func getIntValue(value string) (int, error) {
+	num, err := strconv.ParseInt(value, 10, 0)
 	if err != nil {
 		return -1, errors.New("not an int")
 	}
-	return int32(num), nil
+	return int(num), nil
 }
 
-func checkIfFloat(value string) (float32, error) {
+func getFloatValue(value string) (float32, error) {
 	num, err := strconv.ParseFloat(value, 32)
 	if err != nil {
 		return -1, errors.New("not an float")
@@ -124,5 +125,54 @@ func updateTTL(t int, key string) {
 		}
 
 		time.Sleep(1 * time.Second)
+	}
+}
+
+func performIntFunction(key string, updateFunc func(int) int) common.GokiResult {
+	if currentValue, ok := store.gokiStore[key]; ok != false {
+		strValue, err := decodeStructToBytes(currentValue)
+		if err != nil {
+			return common.GokiResult{
+				ToFormat: false,
+				Value:    err.Error(),
+			}
+		}
+		if strValue.Type != Int {
+			return common.GokiResult{
+				ToFormat: false,
+				Value:    "ERR: value for given key is not integer",
+			}
+		}
+		currentVal := fmt.Sprintf("%v", strValue.Value)
+		currentIntVal, err := getIntValue(currentVal)
+		if err != nil {
+			return common.GokiResult{
+				ToFormat: false,
+				Value:    err.Error(),
+			}
+		}
+		newIntValue := updateFunc(currentIntVal)
+		var newStr StoredValue
+		newStr.TimeAlive = -1
+		newStr.Type = Int
+		newStr.Value = newIntValue
+		newStructVal, err := encodeStructToBytes(newStr)
+		if err != nil {
+			return common.GokiResult{
+				ToFormat: false,
+				Value:    "ERR: could not commit new value to memory!",
+			}
+		}
+		store.gokiStore[key] = newStructVal
+
+		return common.GokiResult{
+			ToFormat: false,
+			Value:    "(integer) " + strconv.Itoa(int(newIntValue)),
+		}
+	}
+
+	return common.GokiResult{
+		Value:    "ERR: Key not found",
+		ToFormat: false,
 	}
 }
