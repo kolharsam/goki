@@ -104,3 +104,35 @@ func TTL(args []string) (common.GokiResponse, error) {
 		TimeStamp: time.Now(),
 	}, nil
 }
+
+// Increment - increments an integer value
+func Increment(args []string) (common.GokiResponse, error) {
+	err := ValidateNArgs(1, args)
+	if err != nil {
+		return common.GokiResponse{}, err
+	}
+
+	key := args[0]
+	updatedIntVal := IncrementValue(key)
+
+	return common.GokiResponse{
+		Result:    updatedIntVal,
+		TimeStamp: time.Now(),
+	}, nil
+}
+
+// Decrement - decrements an integer value
+func Decrement(args []string) (common.GokiResponse, error) {
+	err := ValidateNArgs(1, args)
+	if err != nil {
+		return common.GokiResponse{}, err
+	}
+
+	key := args[0]
+	updatedIntVal := DecrementValue(key)
+
+	return common.GokiResponse{
+		Result:    updatedIntVal,
+		TimeStamp: time.Now(),
+	}, nil
+}
