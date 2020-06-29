@@ -15,4 +15,5 @@ vet-server:  ## run go vet over server code
 	go vet ./server
 vet-client:  ## run go vet over client code
 	go vet ./client
-vet-common:  ## run go vet over common dir.
+vet-common:  ## run go vet over common dir
+    go vet ./common
