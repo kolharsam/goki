@@ -89,6 +89,7 @@ func GetValue(key string) common.GokiResult {
 			toFormat = true
 		}
 
+		store.RUnlock()
 		return common.GokiResult{
 			Value:    value,
 			ToFormat: toFormat,
