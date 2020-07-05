@@ -31,10 +31,10 @@ jobs:
         fi
 
     - name: Build Server
-      run: go build -v ./server
+      run: cd server && go build -v && cd ..
     
     - name: Build Client
-      run: go build -v ./client
+      run: cd client && go build -v && cd ..
 
     - name: Test Server
       run: cd server && go test ./... -v && cd ..
