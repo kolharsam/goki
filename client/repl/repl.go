@@ -70,12 +70,14 @@ func execCommand(input string, port string) error {
 
 func parseInput(input string) (string, []string, error) {
 	// whitespaces are the delimiters
-	inputs := strings.Split(input, " ")
+	cleanInput := utils.CleanseText(input)
+
+	inputs := strings.Split(cleanInput, " ")
 	if len(inputs) <= 1 {
 		return "", []string{}, errors.New("incorrect args passed")
 	}
 
-	command := utils.CleanseText(inputs[0])
+	command := inputs[0]
 	args := inputs[1:]
 
 	cleanArgs := []string{}
