@@ -15,5 +15,7 @@ vet-server:  ## run go vet over server code
 	go vet ./server
 vet-client:  ## run go vet over client code
 	go vet ./client
-vet-common:  ## run go vet over common dir
-    go vet ./common
+test-server: ## run test suite for the server
+	cd server && go test ./... -v && cd ..
+test-client: ## run test suite for the client
+	cd client && go test ./... -v && cd ..
