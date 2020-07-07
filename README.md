@@ -24,7 +24,7 @@ I'll try to model this repo as close to redis as possible.
 - [ ] Improve Logging format on server. Make it richer with the essential details alone
 - [ ] Add helper for similar commands? Provide suggestions like `Did you mean? set get...`
 - [ ] Show all commands supported helper
-- [ ] Good to have : Instead of using JSON over http, try and use some other lighter format for requests and response, like `bencode`
+- [ ] Good to have : Instead of using JSON over http, try and use some other lighter format for requests and response, like `bencode` or `grpc`
 - [ ] Commands tracker: `persist` for certain keys, a new data structure `lists` - `l/r-push` & `l\r-pop`
 - [ ] Add tests (for both client and server)
 
@@ -40,12 +40,12 @@ I'll try to model this repo as close to redis as possible.
 - `decr`
 
 ### Follow these steps to contribute or set up the dev env
- 
- - fork/clone this repo
- - make you sure you have `go` installed and your `GOPATH` setup since we use go modules.
- - to run the **server** you can use the command `go run server/main.go start 9000`
- - to run the **client** you can use the command `go run client/main.go connect 9000`
- - Make your changes! :)
+
+- fork/clone this repo
+- make you sure you have `go` installed and your `GOPATH` setup since we use go modules.
+- to run the **server** you can use the command `go run server/main.go start 9000`
+- to run the **client** you can use the command `go run client/main.go connect 9000`
+- Make your changes! :)
 
 Also, it'll be great if you could help me set up `realize` or any other golang task runners for this!
 
