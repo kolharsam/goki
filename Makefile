@@ -19,3 +19,5 @@ test-server: ## run test suite for the server
 	cd server && go test ./... -v && cd ..
 test-client: ## run test suite for the client
 	cd client && go test ./... -v && cd ..
+compile-proto:  ## run protoc compiler for grpc
+	protoc --go_out=plugins=grpc:gokigrpc goki.proto
