@@ -1,0 +1,22 @@
+syntax = "proto3";
+package gokigrpc;
+option go_package = ".;gokigrpc";
+
+import "google/protobuf/timestamp.proto";
+
+message GokiGRPCRequest {
+  string command = 1;
+  repeated string args = 2;
+}
+
+message GokiGRPCResponse {
+  string result = 1;
+  google.protobuf.Timestamp created_at = 2;
+}
+
+message PingPong { string text = 1; }
+
+service GokiGRPC {
+  rpc RunCommand(GokiGRPCRequest) returns (GokiGRPCResponse) {}
+  rpc Ping(PingPong) returns (PingPong) {}
+}
